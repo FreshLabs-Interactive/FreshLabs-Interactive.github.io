@@ -11,20 +11,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:       #07090f;
-      --surface:  #0c1018;
-      --surface2: #111827;
-      --border:   #1c2740;
-      --border2:  #243050;
-      --cyan:     #00d4ff;
-      --cyan-dim: #00a8cc;
-      --green:    #00ff88;
-      --green-dim:#00cc6a;
-      --text:     #dde4f0;
-      --muted:    #5a6a85;
-      --muted2:   #8899b5;
-      --glow-c:   rgba(0, 212, 255, 0.15);
-      --glow-g:   rgba(0, 255, 136, 0.12);
+      --bg:       #080808;
+      --surface:  #0e0e0e;
+      --surface2: #141414;
+      --border:   #2a1414;
+      --border2:  #3d1a1a;
+      --cyan:     #ff2040;
+      --cyan-dim: #cc1a33;
+      --green:    #ff5060;
+      --green-dim:#cc3040;
+      --text:     #f0e0e0;
+      --muted:    #6b4040;
+      --muted2:   #a07070;
+      --glow-c:   rgba(255, 32, 64, 0.15);
+      --glow-g:   rgba(255, 80, 96, 0.12);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -373,15 +373,6 @@
     .badge-green { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
     .badge-cyan  { background: rgba(0,212,255,0.1); color: var(--cyan);  border: 1px solid rgba(0,212,255,0.2); }
 
-    .asset-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.8rem;
-      color: var(--text);
-    }
-
     .asset-desc {
       color: var(--muted2);
       font-size: 0.95rem;
@@ -694,6 +685,224 @@
     .fade-up:nth-child(3) { transition-delay: 0.2s; }
     .fade-up:nth-child(4) { transition-delay: 0.3s; }
 
+    .asset-screenshot-wrap {
+      width: 100%;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0a0a0a;
+      aspect-ratio: 16/9;
+    }
+
+    .asset-screenshot {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .asset-screenshot-wrap:hover .asset-screenshot {
+      transform: scale(1.03);
+    }
+
+    .screenshot-placeholder {
+      display: none;
+      position: absolute;
+      inset: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      background: var(--surface2);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .placeholder-icon { font-size: 2rem; opacity: 0.4; }
+
+    .placeholder-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .placeholder-label code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+      font-size: 0.68rem;
+      display: block;
+      margin: 0.2rem 0;
+    }
+
+    /* ─── LOGOS ─── */
+
+    /* Nav logo */
+    .nav-logo-img {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-logo-img-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+    }
+
+    .nav-logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    .nav-logo-text span { color: var(--cyan); }
+
+    .nav-logo-placeholder {
+      height: 32px;
+      width: 32px;
+      border-radius: 6px;
+      background: var(--surface2);
+      border: 1px dashed var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0;
+      flex-shrink: 0;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* Hero company logo */
+    .hero-logo-wrap {
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .hero-logo-img {
+      height: 72px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 0 18px var(--glow-c));
+    }
+
+    .hero-logo-placeholder {
+      height: 72px;
+      width: 72px;
+      border-radius: 14px;
+      background: var(--surface2);
+      border: 1px dashed var(--border2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.03em;
+      text-align: center;
+      line-height: 1.5;
+      flex-shrink: 0;
+      padding: 0.4rem;
+    }
+
+    .hero-company-tagline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted2);
+      letter-spacing: 0.06em;
+      font-style: italic;
+      margin-top: -0.2rem;
+    }
+
+    .hero-logo-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .hero-logo-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .hero-logo-name span { color: var(--cyan); }
+
+    /* Asset card logos */
+    .asset-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .asset-logo-img {
+      height: 48px;
+      width: 48px;
+      object-fit: contain;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .asset-logo-placeholder {
+      height: 48px;
+      width: 48px;
+      border-radius: 10px;
+      background: var(--surface2);
+      border: 1px dashed var(--border2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      text-align: center;
+      line-height: 1.4;
+      flex-shrink: 0;
+      padding: 0.3rem;
+    }
+
+    .asset-logo-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .asset-logo-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .asset-logo-tagline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted2);
+      letter-spacing: 0.04em;
+      font-style: italic;
+    }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 820px) {
       .about-grid,
@@ -720,7 +929,16 @@
 <!-- ─── NAV ─── -->
 <nav>
   <div class="inner">
-    <a href="#" class="nav-logo">Fresh<span>Labs</span> Interactive</a>
+    <a href="#" class="nav-logo-img-wrap">
+      <img
+        src="images/logo-company.png"
+        alt="FreshLabs Interactive Logo"
+        class="nav-logo-img"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      >
+      <div class="nav-logo-placeholder" style="display:none;">LOGO</div>
+      <span class="nav-logo-text">Fresh<span>Labs</span> Interactive</span>
+    </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#assets">Assets</a></li>
@@ -734,6 +952,21 @@
 <section id="hero">
   <div class="container">
     <div class="hero-tag">Unity Asset Store Publisher</div>
+
+    <div class="hero-logo-wrap">
+      <img
+        src="images/logo-company.png"
+        alt="FreshLabs Interactive"
+        class="hero-logo-img"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      >
+      <div class="hero-logo-placeholder" style="display:none;">Upload<br>logo-company<br>.png</div>
+      <div class="hero-logo-text-col">
+        <div class="hero-logo-name">Fresh<span>Labs</span> Interactive</div>
+        <div class="hero-company-tagline">"A mind is a terrible thing to waste."</div>
+      </div>
+    </div>
+
     <h1>Tools built for<br><em>real workflows.</em></h1>
     <p class="hero-sub">
       FreshLabs Interactive develops professional Unity Editor extensions designed to eliminate friction in your development pipeline — so you can focus on building great games.
@@ -818,7 +1051,19 @@
     <div class="asset-card accent-cyan fade-up">
       <div class="asset-body">
         <span class="asset-badge badge-cyan">Editor Tool · Git Integration</span>
-        <div class="asset-title">RepoBridge</div>
+        <div class="asset-logo-row">
+          <img
+            src="images/logo-repobridge.png"
+            alt="RepoBridge Logo"
+            class="asset-logo-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          >
+          <div class="asset-logo-placeholder" style="display:none;">Upload<br>logo-repobridge<br>.png</div>
+          <div class="asset-logo-meta">
+            <div class="asset-logo-name">RepoBridge</div>
+            <div class="asset-logo-tagline">Built by developers, for developers.</div>
+          </div>
+        </div>
         <p class="asset-desc">
           RepoBridge puts full Git version control directly inside the Unity Editor. Stage files, write commits, manage branches, lock binary assets, and sync with your remote server — all without leaving Unity. Modelled closely on GitHub Desktop for a familiar, approachable interface.
         </p>
@@ -837,6 +1082,18 @@
       </div>
 
       <div class="asset-panel">
+        <div class="asset-screenshot-wrap">
+          <img
+            src="images/repobridge-screenshot.png"
+            alt="RepoBridge Editor Window Screenshot"
+            class="asset-screenshot"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          >
+          <div class="screenshot-placeholder">
+            <div class="placeholder-icon">🖼️</div>
+            <div class="placeholder-label">Upload<br><code>images/repobridge-screenshot.png</code><br>to your GitHub repo</div>
+          </div>
+        </div>
         <div class="terminal-block">
           <div class="terminal-header">
             <div class="dot dot-r"></div>
@@ -865,7 +1122,19 @@
     <div class="asset-card accent-green fade-up">
       <div class="asset-body">
         <span class="asset-badge badge-green">Editor Tool · UI / Notifications</span>
-        <div class="asset-title">FreshLabs Toast XML System</div>
+        <div class="asset-logo-row">
+          <img
+            src="images/logo-toast.png"
+            alt="FreshLabs Toast XML System Logo"
+            class="asset-logo-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          >
+          <div class="asset-logo-placeholder" style="display:none;">Upload<br>logo-toast<br>.png</div>
+          <div class="asset-logo-meta">
+            <div class="asset-logo-name">Toast XML System</div>
+            <div class="asset-logo-tagline">Built by developers, for developers.</div>
+          </div>
+        </div>
         <p class="asset-desc">
           Bring native-style Windows toast notifications into your Unity game with a fully interactive Editor UI. Define notifications in XML, configure timing, styling, and triggers — then preview everything directly inside the Unity Editor without ever leaving your project.
         </p>
@@ -884,6 +1153,18 @@
       </div>
 
       <div class="asset-panel" style="--glow-c: var(--glow-g);">
+        <div class="asset-screenshot-wrap">
+          <img
+            src="images/toast-screenshot.png"
+            alt="FreshLabs Toast XML System Screenshot"
+            class="asset-screenshot"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          >
+          <div class="screenshot-placeholder">
+            <div class="placeholder-icon">🖼️</div>
+            <div class="placeholder-label">Upload<br><code>images/toast-screenshot.png</code><br>to your GitHub repo</div>
+          </div>
+        </div>
         <div class="terminal-block">
           <div class="terminal-header">
             <div class="dot dot-r"></div>
@@ -1038,7 +1319,7 @@
     const W = canvas.width, H = canvas.height;
 
     // Draw grid lines
-    ctx.strokeStyle = 'rgba(28, 39, 64, 0.6)';
+    ctx.strokeStyle = 'rgba(60, 20, 20, 0.8)';
     ctx.lineWidth = 0.5;
     for (let i = 0; i <= COLS; i++) {
       const x = (i / COLS) * W;
@@ -1056,7 +1337,7 @@
       const r = 1 + pulse * 1.5;
       ctx.beginPath();
       ctx.arc(d.x * W, d.y * H, r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 212, 255, ${alpha})`;
+      ctx.fillStyle = `rgba(255, 32, 64, ${alpha})`;
       ctx.fill();
     });
 
