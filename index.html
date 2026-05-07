@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshLabs Interactive — Unity Tools Publisher</title>
+  <meta name="description" content="FreshLabs Interactive develops professional Unity Editor tools that streamline game development workflows. Built by developers, for developers.">
+  <meta name="keywords" content="Unity, Unity Asset Store, Editor Tools, Git, Unity Publisher, FreshLabs Interactive">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #07090f;
+      --surface:  #0c1018;
+      --surface2: #111827;
+      --border:   #1c2740;
+      --border2:  #243050;
+      --cyan:     #00d4ff;
+      --cyan-dim: #00a8cc;
+      --green:    #00ff88;
+      --green-dim:#00cc6a;
+      --text:     #dde4f0;
+      --muted:    #5a6a85;
+      --muted2:   #8899b5;
+      --glow-c:   rgba(0, 212, 255, 0.15);
+      --glow-g:   rgba(0, 255, 136, 0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── CANVAS BACKGROUND ─── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    section { padding: 100px 0; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.1rem 0;
+      background: rgba(7, 9, 15, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.3s;
+    }
+
+    nav .inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-logo span {
+      color: var(--cyan);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted2);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--cyan); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      position: relative;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--green);
+      background: rgba(0, 255, 136, 0.07);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      padding: 0.4rem 0.9rem;
+      border-radius: 4px;
+      margin-bottom: 1.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-tag::before {
+      content: '▶';
+      font-size: 0.6rem;
+      animation: blink 1.4s step-end infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.4rem;
+    }
+
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted2);
+      max-width: 560px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: #07090f;
+    }
+
+    .btn-primary:hover {
+      background: #fff;
+      box-shadow: 0 0 28px var(--glow-c);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border2);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-1px);
+    }
+
+    /* ─── STAT BAR ─── */
+    .stat-bar {
+      margin-top: 5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .stat { display: flex; flex-direction: column; gap: 0.2rem; }
+
+    .stat-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ─── SECTION HEADERS ─── */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-intro {
+      color: var(--muted2);
+      font-size: 1.05rem;
+      max-width: 580px;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    .about-text p {
+      color: var(--muted2);
+      font-weight: 300;
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+
+    .about-text p strong { color: var(--text); font-weight: 500; }
+
+    .about-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .pillar {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1.2rem 1.4rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .pillar:hover {
+      border-color: var(--cyan-dim);
+      transform: translateX(4px);
+    }
+
+    .pillar-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .pillar-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .pillar-desc {
+      font-size: 0.85rem;
+      color: var(--muted2);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ─── ASSETS ─── */
+    .assets-header {
+      margin-bottom: 3rem;
+    }
+
+    .asset-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .asset-card:hover {
+      border-color: var(--border2);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+
+    .asset-card.accent-green:hover { border-color: rgba(0,255,136,0.3); box-shadow: 0 8px 40px var(--glow-g); }
+    .asset-card.accent-cyan:hover  { border-color: rgba(0,212,255,0.3); box-shadow: 0 8px 40px var(--glow-c); }
+
+    .asset-body {
+      padding: 2.5rem;
+    }
+
+    .asset-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1.2rem;
+    }
+
+    .badge-green { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
+    .badge-cyan  { background: rgba(0,212,255,0.1); color: var(--cyan);  border: 1px solid rgba(0,212,255,0.2); }
+
+    .asset-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+      color: var(--text);
+    }
+
+    .asset-desc {
+      color: var(--muted2);
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      font-size: 0.88rem;
+      color: var(--muted2);
+      font-weight: 300;
+    }
+
+    .feature-list li::before {
+      content: '→';
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+
+    .feature-list.green li::before { color: var(--green); }
+
+    .asset-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+    .asset-panel {
+      background: var(--surface2);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2.5rem;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .asset-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, var(--glow-c) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .asset-card.accent-green .asset-panel::before {
+      background: radial-gradient(ellipse at center, var(--glow-g) 0%, transparent 70%);
+    }
+
+    .terminal-block {
+      width: 100%;
+      background: #050709;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .terminal-header {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+
+    .terminal-title {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-left: auto;
+      letter-spacing: 0.05em;
+    }
+
+    .terminal-body {
+      padding: 1rem 1.2rem;
+      font-size: 0.78rem;
+      line-height: 1.9;
+      color: var(--muted2);
+    }
+
+    .t-cmd  { color: var(--green); }
+    .t-path { color: var(--cyan); }
+    .t-dim  { color: var(--muted); font-style: italic; }
+    .t-out  { color: #a0aec0; }
+
+    .asset-icon-big {
+      font-size: 3.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+      letter-spacing: 0.04em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-meta strong {
+      color: var(--muted2);
+      display: block;
+      margin-top: 0.15rem;
+    }
+
+    /* ─── SUPPORT ─── */
+    #support { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .support-card {
+      padding: 1.8rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .support-card:hover {
+      border-color: var(--cyan-dim);
+      transform: translateY(-3px);
+    }
+
+    .support-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .support-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .support-desc {
+      font-size: 0.875rem;
+      color: var(--muted2);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ─── CONTACT ─── */
+    .contact-box {
+      margin-top: 3rem;
+      padding: 3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .contact-left h2 { margin-bottom: 0.8rem; }
+
+    .contact-left p {
+      color: var(--muted2);
+      font-weight: 300;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--cyan);
+      text-decoration: none;
+      padding: 0.7rem 1.2rem;
+      background: rgba(0,212,255,0.06);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .contact-email:hover {
+      background: rgba(0,212,255,0.12);
+      box-shadow: 0 0 20px var(--glow-c);
+    }
+
+    .contact-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      align-items: flex-start;
+    }
+
+    .info-row-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+    .info-row-text strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-weight: 500;
+      margin-bottom: 0.15rem;
+    }
+
+    .info-row-text span {
+      font-size: 0.8rem;
+      color: var(--muted2);
+      font-weight: 300;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--muted2);
+    }
+
+    .footer-logo span { color: var(--cyan); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--cyan); }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border2), transparent);
+      margin: 4rem 0;
+    }
+
+    /* ─── FADE IN ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .fade-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-up:nth-child(3) { transition-delay: 0.2s; }
+    .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 820px) {
+      .about-grid,
+      .asset-card,
+      .contact-box { grid-template-columns: 1fr; }
+
+      .asset-panel { border-left: none; border-top: 1px solid var(--border); }
+
+      .support-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 540px) {
+      .nav-links { display: none; }
+      .support-grid { grid-template-columns: 1fr; }
+      section { padding: 70px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Animated background grid -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="inner">
+    <a href="#" class="nav-logo">Fresh<span>Labs</span> Interactive</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#assets">Assets</a></li>
+      <li><a href="#support">Support</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-tag">Unity Asset Store Publisher</div>
+    <h1>Tools built for<br><em>real workflows.</em></h1>
+    <p class="hero-sub">
+      FreshLabs Interactive develops professional Unity Editor extensions designed to eliminate friction in your development pipeline — so you can focus on building great games.
+    </p>
+    <div class="btn-row">
+      <a href="#assets" class="btn btn-primary">View Our Assets</a>
+      <a href="#contact" class="btn btn-ghost">Get Support</a>
+    </div>
+    <div class="stat-bar">
+      <div class="stat">
+        <span class="stat-val">2</span>
+        <span class="stat-label">Tools in Development</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">Unity 6</span>
+        <span class="stat-label">Compatible</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">URP</span>
+        <span class="stat-label">Supported Pipeline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">// About</p>
+    <h2>Developer-first<br>editor tooling.</h2>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          FreshLabs Interactive is an independent Unity tools publisher focused on building <strong>practical, well-documented Editor extensions</strong> that solve real problems developers face every day.
+        </p>
+        <p>
+          Every tool we ship is designed around the developer experience — not just functionality, but feel. Clean interfaces, solid documentation, and support that actually responds.
+        </p>
+        <p>
+          Our current catalogue targets two under-served areas: <strong>version control inside Unity</strong> and <strong>runtime notification systems</strong>. More tools are in active development.
+        </p>
+      </div>
+
+      <div class="about-pillars">
+        <div class="pillar fade-up">
+          <div class="pillar-icon">⚙️</div>
+          <div>
+            <div class="pillar-title">Built for Production</div>
+            <div class="pillar-desc">Every asset is tested in real Unity projects before release, targeting Unity 6 LTS and URP pipelines.</div>
+          </div>
+        </div>
+        <div class="pillar fade-up">
+          <div class="pillar-icon">📖</div>
+          <div>
+            <div class="pillar-title">Fully Documented</div>
+            <div class="pillar-desc">Detailed inline documentation and step-by-step guides for every feature, written for all skill levels.</div>
+          </div>
+        </div>
+        <div class="pillar fade-up">
+          <div class="pillar-icon">🔧</div>
+          <div>
+            <div class="pillar-title">Actively Maintained</div>
+            <div class="pillar-desc">Assets receive updates for new Unity versions, bug fixes, and feature improvements over time.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ASSETS ─── -->
+<section id="assets">
+  <div class="container">
+    <div class="assets-header">
+      <p class="section-label">// Assets</p>
+      <h2>Our catalogue.</h2>
+      <p class="section-intro">Professional Editor tools available on the Unity Asset Store. Each one ships with documentation, demo scenes, and full source access.</p>
+    </div>
+
+    <!-- RepoBridge -->
+    <div class="asset-card accent-cyan fade-up">
+      <div class="asset-body">
+        <span class="asset-badge badge-cyan">Editor Tool · Git Integration</span>
+        <div class="asset-title">RepoBridge</div>
+        <p class="asset-desc">
+          RepoBridge puts full Git version control directly inside the Unity Editor. Stage files, write commits, manage branches, lock binary assets, and sync with your remote server — all without leaving Unity. Modelled closely on GitHub Desktop for a familiar, approachable interface.
+        </p>
+        <ul class="feature-list">
+          <li>Full Git staging, committing &amp; push/pull from a native Editor window</li>
+          <li>Branch creation, switching, and merge management</li>
+          <li>Binary asset locking to prevent team conflicts on .fbx, .png, and more</li>
+          <li>Familiar GitHub Desktop-inspired interface — minimal learning curve</li>
+          <li>Works with any remote Git server: GitHub, GitLab, Bitbucket, self-hosted</li>
+        </ul>
+        <div class="asset-links">
+          <a href="#contact" class="btn btn-primary" style="font-size:0.85rem; padding: 0.6rem 1.2rem;">Request Early Access</a>
+          <a href="#contact" class="btn btn-ghost"   style="font-size:0.85rem; padding: 0.6rem 1.2rem;">Documentation &amp; Support</a>
+        </div>
+        <p style="margin-top:1rem; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--muted); letter-spacing:0.05em;">⏳ PENDING UNITY ASSET STORE REVIEW</p>
+      </div>
+
+      <div class="asset-panel">
+        <div class="terminal-block">
+          <div class="terminal-header">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+            <span class="terminal-title">RepoBridge — Unity Editor</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-path">STAGED</span></div>
+            <div><span class="t-cmd">+</span> <span class="t-out">Assets/Player/PlayerController.cs</span></div>
+            <div><span class="t-cmd">+</span> <span class="t-out">Assets/UI/HUDManager.cs</span></div>
+            <div><span class="t-dim">&nbsp;</span></div>
+            <div><span class="t-path">BRANCH</span> <span class="t-out">feature/inventory-system</span></div>
+            <div><span class="t-dim">&nbsp;</span></div>
+            <div><span class="t-path">COMMIT</span></div>
+            <div><span class="t-out">&gt; Add inventory drag-drop logic_</span></div>
+          </div>
+        </div>
+        <div class="panel-meta">
+          CATEGORY<strong>Editor Tools / Version Control</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast XML -->
+    <div class="asset-card accent-green fade-up">
+      <div class="asset-body">
+        <span class="asset-badge badge-green">Editor Tool · UI / Notifications</span>
+        <div class="asset-title">FreshLabs Toast XML System</div>
+        <p class="asset-desc">
+          Bring native-style Windows toast notifications into your Unity game with a fully interactive Editor UI. Define notifications in XML, configure timing, styling, and triggers — then preview everything directly inside the Unity Editor without ever leaving your project.
+        </p>
+        <ul class="feature-list green">
+          <li>Windows-style toast notifications for in-game use</li>
+          <li>XML-driven notification definitions — no code required for basic setups</li>
+          <li>Interactive Editor UI for building and previewing notifications live</li>
+          <li>Configurable display duration, position, icon, title, and body text</li>
+          <li>Event callbacks for user interaction (dismiss, click, timeout)</li>
+        </ul>
+        <div class="asset-links">
+          <a href="#contact" class="btn btn-primary" style="font-size:0.85rem; padding: 0.6rem 1.2rem; background: var(--green); color: #07090f;">Request Early Access</a>
+          <a href="#contact" class="btn btn-ghost"   style="font-size:0.85rem; padding: 0.6rem 1.2rem;">Documentation &amp; Support</a>
+        </div>
+        <p style="margin-top:1rem; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--muted); letter-spacing:0.05em;">⏳ PENDING UNITY ASSET STORE REVIEW</p>
+      </div>
+
+      <div class="asset-panel" style="--glow-c: var(--glow-g);">
+        <div class="terminal-block">
+          <div class="terminal-header">
+            <div class="dot dot-r"></div>
+            <div class="dot dot-y"></div>
+            <div class="dot dot-g"></div>
+            <span class="terminal-title">Toast XML — Preview</span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-path">&lt;toast&gt;</span></div>
+            <div>&nbsp;&nbsp;<span class="t-cmd">&lt;title&gt;</span><span class="t-out">Achievement Unlocked</span><span class="t-cmd">&lt;/title&gt;</span></div>
+            <div>&nbsp;&nbsp;<span class="t-cmd">&lt;body&gt;</span><span class="t-out">First blood!</span><span class="t-cmd">&lt;/body&gt;</span></div>
+            <div>&nbsp;&nbsp;<span class="t-cmd">&lt;duration&gt;</span><span class="t-out">3.5</span><span class="t-cmd">&lt;/duration&gt;</span></div>
+            <div>&nbsp;&nbsp;<span class="t-cmd">&lt;icon&gt;</span><span class="t-out">trophy.png</span><span class="t-cmd">&lt;/icon&gt;</span></div>
+            <div><span class="t-path">&lt;/toast&gt;</span></div>
+            <div><span class="t-dim">&nbsp;</span></div>
+            <div><span class="t-green" style="color:var(--green);">✓ Preview ready in Editor</span></div>
+          </div>
+        </div>
+        <div class="panel-meta">
+          CATEGORY<strong>Editor Tools / UI Notifications</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SUPPORT ─── -->
+<section id="support">
+  <div class="container">
+    <p class="section-label">// Support</p>
+    <h2>We've got you covered.</h2>
+    <p class="section-intro">Every FreshLabs asset ships with proper documentation and a direct support channel. You won't be left guessing.</p>
+
+    <div class="support-grid">
+      <div class="support-card fade-up">
+        <div class="support-icon">📄</div>
+        <div class="support-title">Documentation</div>
+        <div class="support-desc">Every asset has a full written guide covering setup, configuration, scripting API, and common workflows from scratch.</div>
+      </div>
+      <div class="support-card fade-up">
+        <div class="support-icon">🐛</div>
+        <div class="support-title">Bug Reports</div>
+        <div class="support-desc">Found something broken? Email us directly with your Unity version and reproduction steps. We respond within 48 hours.</div>
+      </div>
+      <div class="support-card fade-up">
+        <div class="support-icon">💡</div>
+        <div class="support-title">Feature Requests</div>
+        <div class="support-desc">Have an idea that would make a tool more useful? We actively review requests and incorporate community feedback into updates.</div>
+      </div>
+      <div class="support-card fade-up">
+        <div class="support-icon">🔄</div>
+        <div class="support-title">Unity Version Updates</div>
+        <div class="support-desc">Assets are kept compatible with current Unity LTS releases. Update notes are published with every new version.</div>
+      </div>
+      <div class="support-card fade-up">
+        <div class="support-icon">📦</div>
+        <div class="support-title">Sample Projects</div>
+        <div class="support-desc">Each asset ships with a demo scene so you can see exactly how things work before integrating into your own project.</div>
+      </div>
+      <div class="support-card fade-up">
+        <div class="support-icon">✉️</div>
+        <div class="support-title">Direct Contact</div>
+        <div class="support-desc">No support ticket queues. Reach us directly by email at <a href="mailto:jfresh401@gmail.com" style="color:var(--cyan); text-decoration:none;">jfresh401@gmail.com</a> for any questions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">// Contact</p>
+    <div class="contact-box">
+      <div class="contact-left">
+        <h2>Get in touch.</h2>
+        <p>
+          Questions about an asset, a bug you've encountered, or a feature you'd like to see? We're a small independent studio — reach out directly and you'll hear back from a real person.
+        </p>
+        <a href="mailto:jfresh401@gmail.com" class="contact-email">
+          <span>✉</span> jfresh401@gmail.com
+        </a>
+      </div>
+      <div class="contact-right">
+        <div class="info-row">
+          <div class="info-row-icon">🏢</div>
+          <div class="info-row-text">
+            <strong>Studio</strong>
+            <span>FreshLabs Interactive</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-icon">🎮</div>
+          <div class="info-row-text">
+            <strong>Specialisation</strong>
+            <span>Unity Editor Tools &amp; Extensions</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-icon">⚡</div>
+          <div class="info-row-text">
+            <strong>Engine Focus</strong>
+            <span>Unity 6 LTS · URP · Built-in RP</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-icon">⏱️</div>
+          <div class="info-row-text">
+            <strong>Response Time</strong>
+            <span>Within 48 hours, typically same day</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Fresh<span>Labs</span> Interactive</div>
+    <div class="footer-copy">© 2025 FreshLabs Interactive. All rights reserved.</div>
+    <div class="footer-links">
+      <a href="#assets">Assets</a>
+      <a href="#support">Support</a>
+      <a href="mailto:jfresh401@gmail.com">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ─── GRID CANVAS ─── */
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const COLS = 40, ROWS = 25;
+  const DOTS = [];
+  for (let i = 0; i < COLS; i++)
+    for (let j = 0; j < ROWS; j++)
+      DOTS.push({ x: i / (COLS-1), y: j / (ROWS-1), phase: Math.random() * Math.PI * 2, speed: 0.4 + Math.random() * 0.6 });
+
+  let t = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    t += 0.008;
+    const W = canvas.width, H = canvas.height;
+
+    // Draw grid lines
+    ctx.strokeStyle = 'rgba(28, 39, 64, 0.6)';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= COLS; i++) {
+      const x = (i / COLS) * W;
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let j = 0; j <= ROWS; j++) {
+      const y = (j / ROWS) * H;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    // Draw dots
+    DOTS.forEach(d => {
+      const pulse = (Math.sin(t * d.speed + d.phase) + 1) / 2;
+      const alpha = 0.08 + pulse * 0.3;
+      const r = 1 + pulse * 1.5;
+      ctx.beginPath();
+      ctx.arc(d.x * W, d.y * H, r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 212, 255, ${alpha})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  /* ─── SCROLL FADE ─── */
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
