@@ -790,7 +790,7 @@
     }
 
     .hero-logo-img {
-      height: 150px;
+      height: 72px;
       width: auto;
       object-fit: contain;
       display: block;
@@ -798,8 +798,8 @@
     }
 
     .hero-logo-placeholder {
-      height: 150px;
-      width: 150px;
+      height: 72px;
+      width: 72px;
       border-radius: 14px;
       background: var(--surface2);
       border: 1px dashed var(--border2);
@@ -819,9 +819,9 @@
 
     .hero-company-tagline {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.0rem;
+      font-size: 0.8rem;
       color: var(--muted2);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       font-style: italic;
       margin-top: -0.2rem;
     }
@@ -977,15 +977,19 @@
     </div>
     <div class="stat-bar">
       <div class="stat">
-        <span class="stat-val">2</span>
-        <span class="stat-label">Tools in Development</span>
+        <span class="stat-val">1</span>
+        <span class="stat-label">Tools Published</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">1</span>
+        <span class="stat-label">Tools In Development</span>
       </div>
       <div class="stat">
         <span class="stat-val">Unity 6.3+</span>
         <span class="stat-label">Compatible</span>
       </div>
       <div class="stat">
-        <span class="stat-val">URP</span>
+        <span class="stat-val">URP/HDRP/BiRP</span>
         <span class="stat-label">Supported Pipeline</span>
       </div>
     </div>
@@ -1006,9 +1010,7 @@
         <p>
           Every tool we ship is designed around the developer experience — not just functionality, but feel. Clean interfaces, solid documentation, and support that actually responds.
         </p>
-        <p>
-          Our current catalogue targets two under-served areas: <strong>version control inside Unity</strong> and <strong>runtime notification systems</strong>. More tools are in active development.
-        </p>
+        <p>More tools in development.</p>
       </div>
 
       <div class="about-pillars">
@@ -1016,7 +1018,7 @@
           <div class="pillar-icon">⚙️</div>
           <div>
             <div class="pillar-title">Built for Production</div>
-            <div class="pillar-desc">Every asset is tested in real Unity projects before release, targeting Unity 6 LTS and URP pipelines.</div>
+            <div class="pillar-desc">Every asset is tested in real Unity projects before release, targeting Unity 6.3+ LTS and URP/HDRP/BiRP pipelines.</div>
           </div>
         </div>
         <div class="pillar fade-up">
@@ -1072,13 +1074,13 @@
           <li>Branch creation, switching, and merge management</li>
           <li>Binary asset locking to prevent team conflicts on .fbx, .png, and more</li>
           <li>Familiar GitHub Desktop-inspired interface — minimal learning curve</li>
-          <li>Works with any remote Git server: GitHub, GitLab, Bitbucket, self-hosted</li>
+          <li>Works with any remote Git server: GitHub, GitLab, Bitbucket, self-hosted (Gitea)</li>
         </ul>
         <div class="asset-links">
-          <a href="#contact" class="btn btn-primary" style="font-size:0.85rem; padding: 0.6rem 1.2rem;">Request Early Access</a>
-          <a href="#contact" class="btn btn-ghost"   style="font-size:0.85rem; padding: 0.6rem 1.2rem;">Documentation &amp; Support</a>
+          <a href="https://assetstore.unity.com/packages/tools/gui/repobridge-for-unity-370522" target="_blank" class="btn btn-primary" style="font-size:0.85rem; padding: 0.6rem 1.2rem;">See on Asset Store</a>
+          <a href="#contact" class="btn btn-ghost" style="font-size:0.85rem; padding: 0.6rem 1.2rem;">Documentation &amp; Support</a>
         </div>
-        <p style="margin-top:1rem; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--muted); letter-spacing:0.05em;">⏳ PENDING UNITY ASSET STORE REVIEW</p>
+        <p style="margin-top:1rem; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--green); letter-spacing:0.05em;">✅ PUBLISHED ON UNITY ASSET STORE</p>
       </div>
 
       <div class="asset-panel">
@@ -1113,7 +1115,7 @@
           </div>
         </div>
         <div class="panel-meta">
-          CATEGORY<strong>Editor Tools / Version Control</strong>
+          CATEGORY<strong>Tools / GUI</strong>
         </div>
       </div>
     </div>
@@ -1132,7 +1134,7 @@
           <div class="asset-logo-placeholder" style="display:none;">Upload<br>logo-toast<br>.png</div>
           <div class="asset-logo-meta">
             <div class="asset-logo-name">Toast XML System</div>
-            <div class="asset-logo-tagline">Windows-style toast notifications for in-game use.</div>
+            <div class="asset-logo-tagline">Windows style toast notifications for in-game use.</div>
           </div>
         </div>
         <p class="asset-desc">
@@ -1184,7 +1186,7 @@
           </div>
         </div>
         <div class="panel-meta">
-          CATEGORY<strong>Editor Tools / UI Notifications</strong>
+          CATEGORY<strong>Tools / Utilities</strong>
         </div>
       </div>
     </div>
@@ -1207,17 +1209,17 @@
       <div class="support-card fade-up">
         <div class="support-icon">🐛</div>
         <div class="support-title">Bug Reports</div>
-        <div class="support-desc">Found something broken? Email us directly with your Unity version and reproduction steps. We respond within 48 hours.</div>
+        <div class="support-desc">Found something broken? Email us directly with your Unity version and reproduction steps. We respond within 48 hours. Sometimes, same day!</div>
       </div>
       <div class="support-card fade-up">
         <div class="support-icon">💡</div>
         <div class="support-title">Feature Requests</div>
-        <div class="support-desc">Have an idea that would make a tool more useful? We actively review requests and incorporate community feedback into updates.</div>
+        <div class="support-desc">Have an idea that would make a tool more useful? We actively review requests and incorporate community feedback into updates. You will be rewarded!</div>
       </div>
       <div class="support-card fade-up">
         <div class="support-icon">🔄</div>
         <div class="support-title">Unity Version Updates</div>
-        <div class="support-desc">Assets are kept compatible with current Unity LTS releases. Update notes are published with every new version.</div>
+        <div class="support-desc">Assets are kept compatible with current Unity LTS releases. Update notes are published with every new version. (TBD)</div>
       </div>
       <div class="support-card fade-up">
         <div class="support-icon">📦</div>
@@ -1266,7 +1268,7 @@
           <div class="info-row-icon">⚡</div>
           <div class="info-row-text">
             <strong>Engine Focus</strong>
-            <span>Unity 6 LTS · URP · HDRP</span>
+            <span>Unity 6.3+ LTS · URP · HDRP · Built-in RP</span>
           </div>
         </div>
         <div class="info-row">
